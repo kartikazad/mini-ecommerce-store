@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import ProductCard from "./components/ProductCard";
 
 const products = [
@@ -8,9 +11,20 @@ const products = [
 ];
 
 export default function Home() {
+  const [cartCount, setCartCount] = useState(0);
+
+  const handleAddToCart = () => {
+    setCartCount(cartCount + 1);
+  };
+
   return (
     <main className="max-w-6xl mx-auto p-6">
-      <h1 className="text-3xl font-bold mb-6">Mini Store</h1>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">Mini Store</h1>
+        <div className="bg-black text-white px-4 py-2 rounded-md">
+          🛒 Cart: {cartCount}
+        </div>
+      </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {products.map((product) => (
           <ProductCard
@@ -18,6 +32,7 @@ export default function Home() {
             name={product.name}
             price={product.price}
             image={product.image}
+            onAddToCart={handleAddToCart}
           />
         ))}
       </div>
