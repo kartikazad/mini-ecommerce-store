@@ -1,17 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ProductCard from "./components/ProductCard";
 
-const products = [
-  { id: 1, name: "Blue T-Shirt", price: 19.99, image: "https://picsum.photos/seed/1/400/300" },
-  { id: 2, name: "Red Sneakers", price: 49.99, image: "https://picsum.photos/seed/2/400/300" },
-  { id: 3, name: "Black Backpack", price: 34.99, image: "https://picsum.photos/seed/3/400/300" },
-  { id: 4, name: "Leather Wallet", price: 24.99, image: "https://picsum.photos/seed/4/400/300" },
-];
-
 export default function Home() {
+  const [products, setProducts] = useState([]);
   const [cartCount, setCartCount] = useState(0);
+
+  useEffect(() => {
+    fetch("/api/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data));
+  }, []);
 
   const handleAddToCart = () => {
     setCartCount(cartCount + 1);
@@ -28,7 +28,7 @@ export default function Home() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {products.map((product) => (
           <ProductCard
-            key={product.id}
+            key={product._id}
             name={product.name}
             price={product.price}
             image={product.image}
